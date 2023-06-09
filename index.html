@@ -6,9 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css">
     <title>To do app</title>
+    <script src="main.js" defer></script>
   </head>
   <body>
     
+    <dialog class="folderModal">
+      <button class="closeNewFolderModal">x</button>
+        <form>
+          <h3>Name your folder</h3>
+          <input type="text" placeholder="Your's Folder Name"> </input>
+          <button type="submit">Create</button>
+        </form>
+    </dialog>
 
     <header>
 
@@ -18,7 +27,8 @@
 
     <main>
       <div class="sidebar">
-        sidebar
+        <h3>Folders</h3>
+        <button class="newFolder">Add new Folder</button>
       </div>
 
       <div class="tasks">
