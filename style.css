@@ -38,12 +38,59 @@ main > .sidebar{
   padding: 0.5rem 1rem;
   transition: 0.3s;
 }
-
 .sidebar > .newFolder:hover{
   background-color: #444;
   cursor: pointer;
 }
 
+.sidebar > .OpenDestroyFolderModal {
+  background-color: #ff6961;
+  border: none;
+  color: snow;
+  padding: 0.5rem 1rem;
+  transition: 0.3s;
+  margin: 1rem 0 1rem 0;
+}
+.sidebar > .OpenDestroyFolderModal:hover{
+  background-color: #ce604c;
+  cursor: pointer;
+} 
+
+
+
+.folders {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0 0 0 0;
+  padding: 0 0 2rem 0 ;
+  gap: 1rem;
+  height: auto;
+  width: 100%;
+  overflow: auto;
+}
+
+.folders > li > button{
+  background-color: #333;
+  color: snow;
+  border: none;
+  width: 10vw;
+  padding: 0.5rem 1rem;
+  transition: .3s;
+  overflow: hidden;
+}
+
+.sidebar > ul > li > button:hover{
+  cursor: pointer;
+  background-color: #444;
+
+}
+
+#selected{
+  background-color: sandybrown;
+}
 
 
 main > .tasks {
@@ -66,20 +113,22 @@ footer{
 }
 
 
+
+
 /* Modals */
 .folderModal{
   border-radius: 0.25rem;
   border: 1px solid #333;
   transition: 0.3s;
-  padding: 0;
+  
+  
 }
-
 .folderModal::backdrop{
   backdrop-filter: blur(2px);
   
 }
 
-.folderModal > button {
+.folderModal > .closeNewFolderModal {
   height: 2rem;
   width: 2rem;
   font-size: 1rem;
@@ -90,28 +139,53 @@ footer{
   transition: 0.2s;
   margin-left: 89%;
 }
-
-.folderModal > button:hover {
+.folderModal > .closeNewFolderModal:hover {
   background-color: #ce604c;
   cursor: pointer;
   justify-self: flex-end;
 }
 
-
 .folderModal > form{
   padding: 0 2rem 2rem 2rem;
 }
-
-.folderModal > form > button {
-  margin: 0.3rem;
+.folderModal > .createNewFolderModal {
   background-color: #c5dfc2;
   transition: 0.3s;
   border: none;
   border-radius: 0.1rem;
   padding: 0.3rem;
+  margin-left: 35%;
+}
+.folderModal > .createNewFolderModal:hover {
+  background-color: #81927f;
+  cursor: pointer;
 }
 
-.folderModal > form > button:hover {
+/* Delete folder modal  */
+
+.chooseButtons{
+  display: flex;
+  justify-content: space-between;
+}
+
+.closeDestroyFolderModal{
+  background-color: #c5dfc2;
+  transition: .3s;
+  border: none;
+  padding: .5rem;
+}
+.closeDestroyFolderModal:hover{
   background-color: #81927f;
+  cursor: pointer;
+}
+
+.DestroyFolder{
+  background-color: #ff6961;
+  transition: .3s;
+  border: none;
+  padding: .5rem;
+}
+.DestroyFolder:hover{
+  background-color: #ce604c;
   cursor: pointer;
 }

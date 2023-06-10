@@ -14,9 +14,17 @@
       <button class="closeNewFolderModal">x</button>
         <form>
           <h3>Name your folder</h3>
-          <input type="text" placeholder="Your's Folder Name"> </input>
-          <button type="submit">Create</button>
+          <input type="text" id="FolderName" placeholder="Your's Folder Name" required> </input>
         </form>
+        <button class="createNewFolderModal" onclick=CreateNewFolder(FolderName.value) >Create</button>
+    </dialog>
+
+    <dialog class="DestroyFolderModal">
+        <h3>Choose the fate of the folder</h3>
+        <div class="chooseButtons">
+          <button class="closeDestroyFolderModal">Let him live</button>
+          <button  class="DestroyFolder">Let him die</button>
+        </div>
     </dialog>
 
     <header>
@@ -29,10 +37,19 @@
       <div class="sidebar">
         <h3>Folders</h3>
         <button class="newFolder">Add new Folder</button>
+        <button class="OpenDestroyFolderModal">Delete selcted Folder</button>
+        <ul class="folders">
+        
+        </ul>
+      
       </div>
 
+      <div class="mainsection">
+        tasks:
+          <button class="addNewTask">Add new task</button>
       <div class="tasks">
-        tasks
+
+      </div>
 
         <footer>
           Footer section
