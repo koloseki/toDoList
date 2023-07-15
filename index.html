@@ -9,7 +9,7 @@
     <script src="main.js" defer></script>
   </head>
   <body>
-    
+
     <dialog class="folderModal">
       <button class="closeNewFolderModal">x</button>
         <form>
@@ -27,6 +27,16 @@
         </div>
     </dialog>
 
+    <dialog class="createNewTaskModal">
+      <h3>Creating a new task</h3>
+      <form class="createNewTask">
+        <label for="TaskName">The name of new task</label>
+        <input class="NewFolderName" id="TaskName">
+      </form>
+      <button id="createNewTaskButton">Create</button>
+    </dialog>
+
+
     <header>
 
       <h1>To do app</h1>
@@ -39,9 +49,9 @@
         <button class="newFolder">Add new Folder</button>
         <button class="OpenDestroyFolderModal">Delete selcted Folder</button>
         <ul class="folders">
-        
+
         </ul>
-      
+
       </div>
 
       <div class="mainsection">
@@ -60,7 +70,7 @@
 
 
 
-   
+
 
   </body>
 </html>
