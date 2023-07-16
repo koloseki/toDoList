@@ -75,6 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   addTaskButton.addEventListener('click', function() {
     const selectedButton = document.querySelector('.FolderButton button[id="selected"]');
+    RenderTasks();
     if (selectedButton) {
       const folderName = selectedButton.textContent;
       const newTask = {
