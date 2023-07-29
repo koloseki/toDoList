@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const addTaskButton = document.querySelector('#createNewTaskButton')
   const nameOfNewTask = document.querySelector('#TaskName')
+  const descr = document.querySelector('#TaskDescription')
 
   addTaskButton.addEventListener('click', function() {
     const selectedButton = document.querySelector('.FolderButton button[id="selected"]');
@@ -80,6 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const folderName = selectedButton.textContent;
       const newTask = {
         name: nameOfNewTask.value,
+        description: descr.value,
         isDone: false,
 
       };
@@ -91,8 +93,8 @@ document.addEventListener('DOMContentLoaded', function() {
         selectedFolder.tasks = [];
       }
 
-      AddNewTask(index, nameOfNewTask.value);
-        addNewTaskModal.close();
+      AddNewTask(index, nameOfNewTask.value, descr.value);
+      addNewTaskModal.close();
     }
   });
 
@@ -157,9 +159,10 @@ function CreateNewFolder(folderName) {
     console.log(my_folder);
   }
 }
-function AddNewTask(folderIndex, taskName) {
+function AddNewTask(folderIndex, taskName, taskDescritpion) {
   const newTask = {
     name: taskName,
+    description: taskDescritpion,
     isDone: false
   };
 
@@ -193,7 +196,18 @@ function RenderTasks() {
     if (selectedFolder.hasOwnProperty('tasks')) {
       selectedFolder.tasks.forEach((task, index) => {
         const li = document.createElement('li');
-        li.textContent = task.name;
+        li.innerHTML = `
+          <button class="priorityButton" onclick="priorityColorChange()"></button>
+          <div class="taskName">
+            <input type="checkbox" class="taskCheckbox" ${task.isDone ? 'checked' : ''}>
+            ${task.name} 
+          </div>
+          &nbsp
+          <div class="taskDescription">
+            ${task.description}
+          </div>
+          <button class="deleteTask" onclick="my_folder[${index}].tasks.splice(${index}, 1); localStorage.setItem('my_folder', JSON.stringify(my_folder)); RenderTasks();">Delete</button>
+        `;
         li.addEventListener('click', function() {
           task.isDone = !task.isDone;
           localStorage.setItem('my_folder', JSON.stringify(my_folder));
