@@ -6,7 +6,6 @@ if (Array.isArray(storedData)) {
   }));
 }
 
-
 const FolderModal = document.querySelector('.folderModal');
 const TasksRenderPlace = document.querySelector('.tasks');
 const DestroyFolderModal = document.querySelector('.DestroyFolderModal');
@@ -15,18 +14,12 @@ const Modals = document.querySelectorAll('dialog');
 const FolderNameInput = document.querySelector('#FolderName');
 const FoldersRenderPlace = document.querySelector('.folders')
 
-
 document.addEventListener('DOMContentLoaded', function() {
   RenderFolders();
   defaultFolderSelect();
   RenderTasks();
 
-
-
-
-
-
-//Clicking outside of the modal closes it
+  //Clicking outside of the modal closes it
   Modals.forEach(modal => {
     modal.addEventListener("click", e => {
       const dialogDimensions = modal.getBoundingClientRect();
@@ -40,7 +33,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   });
-
 
   const folderButtons = document.querySelectorAll('.FolderButton button');
   folderButtons.forEach(button => {
@@ -83,7 +75,6 @@ document.addEventListener('DOMContentLoaded', function() {
         name: nameOfNewTask.value,
         description: descr.value,
         isDone: false,
-
       };
 
       const index = Array.from(selectedButton.parentNode.parentNode.children).indexOf(selectedButton.parentNode);
@@ -97,8 +88,6 @@ document.addEventListener('DOMContentLoaded', function() {
       addNewTaskModal.close();
     }
   });
-
-
 });
 
 function defaultFolderSelect(){
@@ -108,7 +97,6 @@ function defaultFolderSelect(){
   }
   RenderTasks();
 }
-
 
 // Showing and hiding Modals
 const OpenNewFolderModal = document.querySelector('.newFolder')
@@ -139,8 +127,6 @@ closeNewTaskModal.addEventListener("click", () => {
   addNewTaskModal.close();
 })
 
-
-
 function CreateNewFolder(folderName) {
   if (folderName === '') {
     console.log('Value should not be empty');
@@ -159,15 +145,14 @@ function CreateNewFolder(folderName) {
     console.log(my_folder);
   }
 }
-function AddNewTask(folderIndex, taskName, taskDescritpion) {
+
+function AddNewTask(folderIndex, taskName, taskDescription) {
   const newTask = {
     name: taskName,
-    description: taskDescritpion,
-    isDone: false
+    description: taskDescription,
+    isDone: false,
+    status: 'todo' // Dodajemy deklarację statusu z wartością "todo"
   };
-
-
-
 
   my_folder[folderIndex].tasks.push(newTask);
   localStorage.setItem('my_folder', JSON.stringify(my_folder, (key, value) => {
@@ -184,6 +169,40 @@ function AddNewTask(folderIndex, taskName, taskDescritpion) {
   console.log(my_folder[folderIndex]);
 }
 
+function priorityColorChange(taskIndex) {
+  my_folder.forEach((folder, folderIndex) => {
+    folder.tasks.forEach((task, index) => {
+      if (index === taskIndex) {
+        if (task.status === 'done') {
+          task.status = 'inProgress';
+        } else if (task.status === 'inProgress') {
+          task.status = 'todo';
+        } else if (task.status === 'todo') {
+          task.isDone = false;
+          task.status = 'done';
+        }
+      }
+    });
+  });
+  localStorage.setItem('my_folder', JSON.stringify(my_folder));
+  RenderTasks();
+}
+
+
+
+function getPriorityClass(isDone, status) {
+  if (isDone) {
+    return 'done';
+  } else {
+    if (status === 'inProgress') {
+      return 'inProgress';
+    } else if (status === 'todo') {
+      return 'todo';
+    } else {
+      return '';
+    }
+  }
+}
 
 function RenderTasks() {
   TasksRenderPlace.innerHTML = '';
@@ -197,10 +216,9 @@ function RenderTasks() {
       selectedFolder.tasks.forEach((task, index) => {
         const li = document.createElement('li');
         li.innerHTML = `
-          <button class="priorityButton" onclick="priorityColorChange()"></button>
-          <div class="taskName">
-            <input type="checkbox" class="taskCheckbox" ${task.isDone ? 'checked' : ''}>
-            ${task.name} 
+          <button class="priorityButton ${getPriorityClass(task.isDone, task.status)}" onclick="priorityColorChange(${index})"></button>
+          <div class="taskName ${getPriorityClass(task.isDone, task.status)}">
+            <h2>${task.name}</h2>
           </div>
           &nbsp
           <div class="taskDescription">
@@ -208,15 +226,6 @@ function RenderTasks() {
           </div>
           <button class="deleteTask" onclick="my_folder[${index}].tasks.splice(${index}, 1); localStorage.setItem('my_folder', JSON.stringify(my_folder)); RenderTasks();">Delete</button>
         `;
-        li.addEventListener('click', function() {
-          task.isDone = !task.isDone;
-          localStorage.setItem('my_folder', JSON.stringify(my_folder));
-          RenderTasks();
-        });
-
-        if (task.isDone) {
-          li.classList.add('done');
-        }
 
         TasksRenderPlace.appendChild(li);
       });
