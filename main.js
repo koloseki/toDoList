@@ -169,40 +169,53 @@ function AddNewTask(folderIndex, taskName, taskDescription) {
   console.log(my_folder[folderIndex]);
 }
 
-function priorityColorChange(taskIndex) {
-  my_folder.forEach((folder, folderIndex) => {
-    folder.tasks.forEach((task, index) => {
-      if (index === taskIndex) {
-        if (task.status === 'done') {
-          task.status = 'inProgress';
-        } else if (task.status === 'inProgress') {
-          task.status = 'todo';
-        } else if (task.status === 'todo') {
-          task.isDone = false;
-          task.status = 'done';
-        }
-      }
-    });
-  });
+function priorityColorChange(folderIndex, taskIndex) {
+
+  const task = my_folder[folderIndex].tasks[taskIndex];
+  
+  if (task.status === 'done') {
+    task.status = 'inProgress';
+  } else if (task.status === 'inProgress') {
+    task.status = 'todo';
+  } else if (task.status === 'todo') {
+    task.isDone = false;
+    task.status = 'done';
+  }
+
   localStorage.setItem('my_folder', JSON.stringify(my_folder));
   RenderTasks();
 }
 
-
-
 function getPriorityClass(isDone, status) {
-  if (isDone) {
-    return 'done';
-  } else {
-    if (status === 'inProgress') {
+  switch (status) {
+    case 'done':
+      return 'done';
+    case 'inProgress':
       return 'inProgress';
-    } else if (status === 'todo') {
+    case 'todo':
       return 'todo';
-    } else {
-      return '';
+    default:
+      console.error('Unknown status:', status);
+      return ''; 
+  }
+}
+
+
+
+function removeTask(folderIndex, taskIndex) {
+  const task = my_folder[folderIndex].tasks[taskIndex];
+  
+  if (folderIndex >= 0 && folderIndex < my_folder.length && task.status == 'done') {
+    const folder = my_folder[folderIndex];
+    if (taskIndex >= 0 && taskIndex < folder.tasks.length) {
+      folder.tasks.splice(taskIndex, 1);
+      localStorage.setItem('my_folder', JSON.stringify(my_folder));
+      RenderTasks();
     }
   }
 }
+
+
 
 function RenderTasks() {
   TasksRenderPlace.innerHTML = '';
@@ -213,18 +226,20 @@ function RenderTasks() {
     const selectedFolder = my_folder[index];
 
     if (selectedFolder.hasOwnProperty('tasks')) {
-      selectedFolder.tasks.forEach((task, index) => {
+      selectedFolder.tasks.forEach((task, taskIndex) => {
         const li = document.createElement('li');
         li.innerHTML = `
-          <button class="priorityButton ${getPriorityClass(task.isDone, task.status)}" onclick="priorityColorChange(${index})"></button>
-          <div class="taskName ${getPriorityClass(task.isDone, task.status)}">
-            <h2>${task.name}</h2>
+        <button class="priorityButton ${getPriorityClass(task.isDone, task.status)}" onclick="priorityColorChange(${index}, ${taskIndex})"></button>
+        <div class="taskName ${getPriorityClass(task.isDone, task.status)}">
+            ${task.name} 
           </div>
           &nbsp
           <div class="taskDescription">
             ${task.description}
           </div>
-          <button class="deleteTask" onclick="my_folder[${index}].tasks.splice(${index}, 1); localStorage.setItem('my_folder', JSON.stringify(my_folder)); RenderTasks();">Delete</button>
+          &nbsp
+
+          <button class="deleteTask" onclick="removeTask(${index}, ${taskIndex})"><img src='public/xSolid.svg' alt='Close Button'></button>
         `;
 
         TasksRenderPlace.appendChild(li);
@@ -232,7 +247,6 @@ function RenderTasks() {
     }
   }
 }
-
 
 function RenderFolders() {
   FoldersRenderPlace.innerHTML = '';

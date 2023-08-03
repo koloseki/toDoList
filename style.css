@@ -144,6 +144,10 @@ main > .sidebar{
   width: 3rem;
 }
 
+.priorityButton:hover{
+  filter: brightness(.9);
+}
+
 .priorityButton.inProgress{
   background-color: #ffbd44;
 }
@@ -157,7 +161,6 @@ main > .sidebar{
   display: flex;
   justify-content: center;
   
-  
 }
 
 .taskName > h2{
@@ -167,6 +170,24 @@ main > .sidebar{
 .taskDescription{
   width: 90%;
   max-height: 15%;
+}
+
+.deleteTask{
+  cursor: pointer;
+  background-color: #ff6961;
+  border: none;
+  color: snow;
+  padding: 0.5rem 1rem;
+  transition: 0.3s;
+  border-radius: 0 .5rem .5rem 0;
+  width: 3rem;
+}
+.deleteTask:hover{
+  background-color: #ce604c;
+}
+
+.closeButton{
+  fill: white;
 }
 
 .mainsection{
