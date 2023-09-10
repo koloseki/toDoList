@@ -11,16 +11,15 @@
   <body>
 
     <dialog class="folderModal">
-      <button class="closeNewFolderModal">x</button>
         <form>
-          <h3>Name your folder</h3>
-          <input type="text" id="FolderName" placeholder="Your's Folder Name" required> </input>
+          <h3>Create new folder</h3>
+          <input type="text" id="FolderName" placeholder="Yours Folder Name" required> </input>
         </form>
         <button class="createNewFolderModal" onclick=CreateNewFolder(FolderName.value) >Create</button>
     </dialog>
 
     <dialog class="DestroyFolderModal folderModal">
-        <h3>Choose the fate of the folder</h3>
+        <h3>Are you sure you want to delete "<span id="nameOfDeletingFolder"></span>" ?</h3>
         <div class="chooseButtons">
           <button class="closeDestroyFolderModal">Keep it</button>
           <button  class="DestroyFolder">Delete</button>
@@ -51,15 +50,17 @@
     <main>
       <div class="sidebar">
         <h3>Folders</h3>
-        <button class="newFolder">Add new Folder</button>
-        <button class="OpenDestroyFolderModal">Delete selcted Folder</button>
+        <div class="controlFolderButtons">
+          <button class="newFolder"><img src="public/folderPlus.svg" width="20" alt="New Folder Icon"></button>
+          <button class="OpenDestroyFolderModal"><img src="public/trashCan.svg" width="20" alt="Delete Folder Icon"></button>
+        </div>
         <ul class="folders">
 
         </ul>
 
       </div>
 
-      <div class="mainsection">
+      <div class="mainSection">
       <div class="AllTasks">
         <div class="tasks">
           
@@ -67,7 +68,7 @@
         <button class="addNewTask"><img src="public/plus-solid.svg" alt="Add new task button" width="32px"> </button>
       </div>
         <footer>
-          Created by <a href="kontakt.html">Dawid Żychowki</a>
+          Copyright &copy; koloseki <a class="gitLink" href="https://github.com/koloseki"><img class="imgOfGithub" src="public/github.svg" height="30vh" width="auto" alt="github"></a>
         </footer>
       </div>
     </main>

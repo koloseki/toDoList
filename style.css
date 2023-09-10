@@ -1,12 +1,41 @@
- @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+
+:root{
+  /* Light Theme */
+  --background-color: #e8eded;
+  --header-color: #606d7b;
+  --main-color: #ddd4d4;
+  --sidebar-color: #333;
+  --sidebar-hover-color: #444;
+  --sidebar-button-color: #606d7b;
+  --sidebar-button-hover-color: #817465;
+  --sidebar-button-selected-color: #ffbd44;
+  --tasks-color: #333;
+  --tasks-hover-color: #444;
+  --tasks-button-color: #606d7b;
+  --tasks-button-hover-color: #817465;
+  --tasks-button-selected-color: #ffbd44;
+  --footer-color: #606d7b;
+
+  /* Dark Theme */
+  --background-color-dark: #333;
+  --header-color-dark: #606d7b;
+  --main-color-dark: #ddd4d4;
+  --sidebar-color-dark: #333;
+  --sidebar-hover-color-dark: #444;
+}
+
+
+
+
 body{
   margin: 0;
   font-family: Roboto ,system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   height: 100dvh;
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
   background-color: #e8eded;
 }
 
@@ -19,17 +48,21 @@ header{
   color: #e8eded;
   margin: 1rem;
   border-radius: .5rem;
-}
 
-header > h1{
+  & h1{
     font-size: 3em;
     margin: 0;
+  }
+
 }
+
 
 main{
   height: 85%;
   display: flex;
 }
+
+
 
 main > .sidebar{
   width: 13vw;
@@ -64,7 +97,28 @@ main > .sidebar{
 .sidebar > .OpenDestroyFolderModal:hover{
   background-color: #ce604c;
   cursor: pointer;
-} 
+}
+
+.controlFolderButtons{
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+  padding: 0 1rem 0 1rem;
+  margin-bottom: 1rem;
+
+  & button{
+    border: none;
+    padding: .3rem .5rem;
+    border-radius: .5rem;
+
+    &:hover{
+      cursor: pointer;
+    }
+  }
+}
+
+
+
 
 
 
@@ -126,6 +180,9 @@ main > .sidebar{
   margin: 1rem;
   border-radius: .5rem;
   width: 80vw;
+  max-height: 15vh;
+
+
 }
 .tasks > li > *{
   padding: 1rem;
@@ -142,19 +199,20 @@ main > .sidebar{
   margin: 0;
   border-radius: .5rem 0 0 .5rem;
   width: 3rem;
+
+  &:hover{
+    filter: brightness(.9);
+  }
+
+  &.inProgress{
+    background-color: #ffbd44;
+  }
+
+  &.todo{
+    background-color: #FF605C;
+  }
 }
 
-.priorityButton:hover{
-  filter: brightness(.9);
-}
-
-.priorityButton.inProgress{
-  background-color: #ffbd44;
-}
-
-.priorityButton.todo{
-  background-color: #FF605C;  
-}
 
 .tasks > li > .taskName {
   width: 10%;
@@ -169,7 +227,11 @@ main > .sidebar{
 
 .taskDescription{
   width: 90%;
-  max-height: 15%;
+    display: flex;
+
+  padding: 1rem;
+
+  overflow: scroll;
 }
 
 .deleteTask{
@@ -181,16 +243,18 @@ main > .sidebar{
   transition: 0.3s;
   border-radius: 0 .5rem .5rem 0;
   width: 3rem;
-}
-.deleteTask:hover{
-  background-color: #ce604c;
+  &:hover{
+    filter: brightness(.9);
+    background-color: #ce604c;
+
+  }
 }
 
 .closeButton{
   fill: white;
 }
 
-.mainsection{
+.mainSection{
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -207,7 +271,17 @@ main > .sidebar{
   padding: 2rem 0 2rem 0;
   gap: 3rem;
 }
+.addNewTask{
+    border: none;
+    border-radius: .5rem;
+    transition: .3s;
 
+  &:hover{
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0);
+    scale: 1.4;
+  }
+}
 
 
 
@@ -220,10 +294,24 @@ footer{
   justify-content: center;
   align-items: center ;
   width: 80vw;
-    margin: 1rem;
-    border-radius: .5rem;
+  margin: 1rem;
+  border-radius: .5rem;
 
+  & .gitLink {
+    text-decoration: none;
+    padding-left: .5rem;
+
+    & .imgOfGithub{
+      transition: transform .7s ease-in-out;
+
+     &:hover{
+            transform: rotate(360deg);
+        }
+    }
+  }
 }
+
+
 
 
 
@@ -237,29 +325,12 @@ footer{
   border: 1px solid #333;
   transition: 0.3s;
   
-  
-}
-.folderModal::backdrop{
-  backdrop-filter: blur(2px);
-  
+  &::backdrop{
+    backdrop-filter: blur(2px);
+  }
 }
 
-.folderModal > .closeNewFolderModal {
-  height: 2rem;
-  width: 2rem;
-  font-size: 1rem;
-  text-align: center;
-  border: none;
-  border-radius: .25rem;
-  background-color: #ff6961;
-  transition: 0.2s;
-  margin-left: 89%;
-}
-.folderModal > .closeNewFolderModal:hover {
-  background-color: #ce604c;
-  cursor: pointer;
-  justify-self: flex-end;
-}
+
 
 .folderModal > form{
   padding: 0 2rem 2rem 2rem;
@@ -271,11 +342,12 @@ footer{
   border-radius: 0.1rem;
   padding: 0.3rem;
   margin-left: 35%;
+  &:hover {
+    background-color: #81927f;
+    cursor: pointer;
+  }
 }
-.folderModal > .createNewFolderModal:hover {
-  background-color: #81927f;
-  cursor: pointer;
-}
+
 
 /* Delete folder modal  */
 
@@ -289,10 +361,11 @@ footer{
   transition: .3s;
   border: none;
   padding: .5rem;
-}
-.closeDestroyFolderModal:hover{
-  background-color: #81927f;
-  cursor: pointer;
+  border-radius: .5rem;
+  &:hover{
+    background-color: #81927f;
+    cursor: pointer;
+  }
 }
 
 .DestroyFolder{
@@ -300,8 +373,9 @@ footer{
   transition: .3s;
   border: none;
   padding: .5rem;
-}
-.DestroyFolder:hover{
-  background-color: #ce604c;
-  cursor: pointer;
+  border-radius: .5rem;
+    &:hover{
+        background-color: #ce604c;
+        cursor: pointer;
+    }
 }

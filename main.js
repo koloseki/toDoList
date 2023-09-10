@@ -103,15 +103,15 @@ const OpenNewFolderModal = document.querySelector('.newFolder')
 OpenNewFolderModal.addEventListener("click", () => {
   FolderModal.showModal();
 })
-const CloseNewFolderModal = document.querySelector('.closeNewFolderModal')
-CloseNewFolderModal.addEventListener("click", () => {
-  FolderModal.close();
-})
 
 const OpenDestroyFolderModal = document.querySelector('.OpenDestroyFolderModal')
+const nameOfDeletingFolder = document.querySelector('#nameOfDeletingFolder')
+
 OpenDestroyFolderModal.addEventListener("click", () => {
+  nameOfDeletingFolder.innerHTML = document.querySelector('.FolderButton button[id="selected"]').textContent;
   DestroyFolderModal.showModal();
 })
+
 const CloseDestroyFolderModal = document.querySelector('.closeDestroyFolderModal')
 CloseDestroyFolderModal.addEventListener("click", () => {
   DestroyFolderModal.close();
