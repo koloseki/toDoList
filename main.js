@@ -4,7 +4,11 @@ if (Array.isArray(storedData)) {
     name: folder.name,
     tasks: Array.isArray(folder.tasks) ? folder.tasks.map(task => ({ ...task })) : []
   }));
+}else {
+    my_folder = [];
+    localStorage.setItem('my_folder', JSON.stringify(my_folder));
 }
+
 
 const FolderModal = document.querySelector('.folderModal');
 const TasksRenderPlace = document.querySelector('.tasks');
@@ -121,10 +125,6 @@ const addTaskButton = document.querySelector('.addNewTask')
 addTaskButton.addEventListener('click', function(){
   console.log('true');
   addNewTaskModal.showModal()
-})
-const closeNewTaskModal = document.querySelector('.closeNewTaskModal')
-closeNewTaskModal.addEventListener("click", () => {
-  addNewTaskModal.close();
 })
 
 function CreateNewFolder(folderName) {
