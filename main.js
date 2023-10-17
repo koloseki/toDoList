@@ -151,7 +151,7 @@ function AddNewTask(folderIndex, taskName, taskDescription) {
     name: taskName,
     description: taskDescription,
     isDone: false,
-    status: 'todo' // Dodajemy deklarację statusu z wartością "todo"
+    status: 'todo'
   };
 
   my_folder[folderIndex].tasks.push(newTask);
@@ -229,17 +229,19 @@ function RenderTasks() {
       selectedFolder.tasks.forEach((task, taskIndex) => {
         const li = document.createElement('li');
         li.innerHTML = `
-        <button class="priorityButton ${getPriorityClass(task.isDone, task.status)}" onclick="priorityColorChange(${index}, ${taskIndex})"></button>
-        <div class="taskName ${getPriorityClass(task.isDone, task.status)}">
-            ${task.name} 
+        <div class="task">
+            <div class="title_control">
+                <button class="priorityButton ${getPriorityClass(task.isDone, task.status)}" onclick="priorityColorChange(${index}, ${taskIndex})"></button>
+                <div class="taskName ${getPriorityClass(task.isDone, task.status)}">
+                    <h3>${task.name} </h3>
+                </div>
+  
+                <button class="deleteTask" onclick="removeTask(${index}, ${taskIndex})"><img src='xSolid.svg' alt='Close Button'></button>
+            </div>
+            <div class="taskDescription">
+                ${task.description}
+            </div>
           </div>
-          &nbsp
-          <div class="taskDescription">
-            ${task.description}
-          </div>
-          &nbsp
-
-          <button class="deleteTask" onclick="removeTask(${index}, ${taskIndex})"><img src='public/xSolid.svg' alt='Close Button'></button>
         `;
 
         TasksRenderPlace.appendChild(li);
