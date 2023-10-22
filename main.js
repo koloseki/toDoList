@@ -1,6 +1,10 @@
+import './style.css';
+
+let my_folder; // global for vite
+
 let storedData = JSON.parse(localStorage.getItem('my_folder'));
 if (Array.isArray(storedData)) {
-  my_folder = storedData.map(folder => ({
+    my_folder = storedData.map(folder => ({
     name: folder.name,
     tasks: Array.isArray(folder.tasks) ? folder.tasks.map(task => ({ ...task })) : []
   }));
@@ -18,12 +22,12 @@ const Modals = document.querySelectorAll('dialog');
 const FolderNameInput = document.querySelector('#FolderName');
 const FoldersRenderPlace = document.querySelector('.folders')
 
-document.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('load', function() {
   RenderFolders();
   defaultFolderSelect();
   RenderTasks();
 
-  //Clicking outside of the modal closes it
+  //Clicking outside the modal closes it
   Modals.forEach(modal => {
     modal.addEventListener("click", e => {
       const dialogDimensions = modal.getBoundingClientRect();
@@ -48,6 +52,12 @@ document.addEventListener('DOMContentLoaded', function() {
       button.setAttribute('id', 'selected');
       RenderTasks();
     });
+  });
+
+  const createFolderButton = document.getElementById('createFolderButton');
+  createFolderButton.addEventListener('click', function() {
+    const folderNameInput = document.getElementById('FolderName');
+    CreateNewFolder(folderNameInput.value);
   });
 
   const destroyFolderButton = document.querySelector('.DestroyFolder');
@@ -92,6 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
       addNewTaskModal.close();
     }
   });
+
 });
 
 function defaultFolderSelect(){
@@ -127,7 +138,7 @@ addTaskButton.addEventListener('click', function(){
   addNewTaskModal.showModal()
 })
 
-function CreateNewFolder(folderName) {
+export function CreateNewFolder(folderName) {
   if (folderName === '') {
     console.log('Value should not be empty');
   } else {
@@ -172,7 +183,7 @@ function AddNewTask(folderIndex, taskName, taskDescription) {
 function priorityColorChange(folderIndex, taskIndex) {
 
   const task = my_folder[folderIndex].tasks[taskIndex];
-  
+
   if (task.status === 'done') {
     task.status = 'inProgress';
   } else if (task.status === 'inProgress') {
@@ -196,7 +207,7 @@ function getPriorityClass(isDone, status) {
       return 'todo';
     default:
       console.error('Unknown status:', status);
-      return ''; 
+      return '';
   }
 }
 
@@ -204,7 +215,7 @@ function getPriorityClass(isDone, status) {
 
 function removeTask(folderIndex, taskIndex) {
   const task = my_folder[folderIndex].tasks[taskIndex];
-  
+
   if (folderIndex >= 0 && folderIndex < my_folder.length && task.status == 'done') {
     const folder = my_folder[folderIndex];
     if (taskIndex >= 0 && taskIndex < folder.tasks.length) {
@@ -229,26 +240,47 @@ function RenderTasks() {
       selectedFolder.tasks.forEach((task, taskIndex) => {
         const li = document.createElement('li');
         li.innerHTML = `
-        <div class="task">
+          <div class="task">
             <div class="title_control">
-                <button class="priorityButton ${getPriorityClass(task.isDone, task.status)}" onclick="priorityColorChange(${index}, ${taskIndex})"></button>
-                <div class="taskName ${getPriorityClass(task.isDone, task.status)}">
-                    <h3>${task.name} </h3>
-                </div>
-  
-                <button class="deleteTask" onclick="removeTask(${index}, ${taskIndex})"><img src='xSolid.svg' alt='Close Button'></button>
+              <button class="priorityButton ${getPriorityClass(task.isDone, task.status)}" data-index="${index}" data-task-index="${taskIndex}"></button>
+              <div class="taskName ${getPriorityClass(task.isDone, task.status)}">
+                <h3>${task.name} </h3>
+              </div>
+              <button class="deleteTask" data-index="${index}" data-task-index="${taskIndex}">
+                <img src='xSolid.svg' alt='Close Button'>
+              </button>
             </div>
             <div class="taskDescription">
-                ${task.description}
+              ${task.description}
             </div>
           </div>
         `;
+
+        const priorityButton = li.querySelector(".priorityButton");
+        const deleteButton = li.querySelector(".deleteTask");
+
+        priorityButton.addEventListener("click", handlePriorityButtonClick);
+        deleteButton.addEventListener("click", handleDeleteButtonClick);
 
         TasksRenderPlace.appendChild(li);
       });
     }
   }
 }
+
+function handlePriorityButtonClick(event) {
+  const index = event.target.getAttribute("data-index");
+  const taskIndex = event.target.getAttribute("data-task-index");
+  priorityColorChange(index, taskIndex);
+}
+
+function handleDeleteButtonClick(event) {
+  const index = event.target.getAttribute("data-index");
+  const taskIndex = event.target.getAttribute("data-task-index");
+  removeTask(index, taskIndex);
+}
+
+
 
 function RenderFolders() {
   FoldersRenderPlace.innerHTML = '';

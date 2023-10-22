@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css">
+    <link type="text/css" href="styles.css">
     <title>To do app</title>
-    <script src="main.js" defer></script>
+    <script type="module" src="main.js"  defer></script>
   </head>
   <body>
 
@@ -15,7 +15,7 @@
           <h3>Create new folder</h3>
           <input type="text" id="FolderName" placeholder="Yours Folder Name" required> </input>
         </form>
-        <button class="createNewFolderModal" onclick=CreateNewFolder(FolderName.value) >Create</button>
+        <button class="createNewFolderModal" id="createFolderButton" >Create</button>
     </dialog>
 
     <dialog class="DestroyFolderModal folderModal">
